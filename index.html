@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Leaflet CSS for the interactive map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <!-- Favicon -->
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
     
     <!-- Chosen Palette: Earthy Harmony -->
     <style>
@@ -112,7 +114,7 @@
         <section id="solution" class="py-20 bg-[#F7F6F2]">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">Our Solution: The Regen-AI MMRV Suite</h3>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">Our Solution: The RegenAI MMRV Suite</h3>
                     <p class="max-w-3xl mx-auto text-gray-600 text-lg">We've developed a cutting-edge MMRV platform that removes these barriers. Our system is built on three core pillars that create a powerful, scalable, and accessible solution.</p>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
@@ -134,7 +136,7 @@
                          <h4 class="text-2xl font-bold">Visualizing the Economic Impact</h4>
                          <p class="text-gray-600 max-w-2xl mx-auto">Our technology fundamentally changes the financial equation for carbon farming. This chart illustrates the dramatic cost reduction our platform provides compared to traditional systems.</p>
                     </div>
-                    <div class="chart-container bg-white p-4 rounded-xl shadow-lg mx-auto" style="position: relative; height: 50vh; max-height: 400px; width: 100%; max-width: 700px;">
+                    <div class="chart-container bg-white p-4 rounded-xl shadow-lg mx-auto" style="position: relative; height: 50vh; max-height: 400px; width: 100%; max-w-700px;">
                         <canvas id="costChart"></canvas>
                     </div>
                 </div>
@@ -160,8 +162,16 @@
                         <h5 class="font-bold">3. Unlock New Revenue</h5>
                     </div>
                 </div>
-                <div id="process-details" class="bg-[#F7F6F2] p-8 rounded-xl shadow-inner max-w-4xl mx-auto text-center">
-                    <p class="text-lg text-gray-700"></p>
+                <!-- The container below now uses flexbox to arrange content -->
+                <div id="process-details" class="bg-[#F7F6F2] p-8 md:p-12 rounded-xl shadow-inner max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+                    <!-- This div contains the larger image -->
+                    <div class="w-full md:w-1/2 flex justify-center">
+                         <img id="step-image" src="./img/step-1.png" alt="Step 1: Data Collection" class="h-96 w-96 object-contain rounded-xl shadow-md">
+                    </div>
+                    <!-- This div contains the text details -->
+                    <div class="w-full md:w-1/2 text-center md:text-left">
+                        <p id="step-text" class="text-lg text-gray-700"></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -336,17 +346,28 @@
             new Chart(costChartCtx, costConfig);
 
             const processSteps = document.querySelectorAll('.process-step');
-            const processDetails = document.querySelector('#process-details p');
+            const processImage = document.querySelector('#step-image'); // Updated selector
+            const processText = document.querySelector('#step-text'); // Updated selector
             const stepDetails = {
-                'step-1': "Forget cumbersome interfaces. We meet farmers where they are. Our system uses advanced Large Language Models (LLMs) to extract necessary data from any format—be it paper records, surveys, Excel files, audio notes, or even videos. This removes technical barriers and streamlines the data pipeline.",
-                'step-2': "The Regen-AI MMRV Suite takes over, running complex simulations with the DayCent model and generating the necessary reports for carbon registries like Verra and Gold Standard. Our robust, LLM-supported APIs allow for seamless integration and automatic interaction.",
-                'step-3': "With verified carbon credits, farmers can tap into a new stream of income, rewarding them for their sustainable land management practices. This creates a resilient, profitable future for their communities and contributes directly to global climate goals."
+                'step-1': {
+                    text: "Forget cumbersome interfaces. We meet farmers where they are. Our system uses advanced Large Language Models (LLMs) to extract necessary data from any format—be it paper records, surveys, Excel files, audio notes, or even videos. This removes technical barriers and streamlines the data pipeline.",
+                    image: "./img/step-1.png"
+                },
+                'step-2': {
+                    text: "The RegenAI MMRV Suite takes over, running complex simulations with the DayCent model and generating the necessary reports for carbon registries like Verra and Gold Standard. Our robust, LLM-supported APIs allow for seamless integration and automatic interaction.",
+                    image: "./img/step-2.png"
+                },
+                'step-3': {
+                    text: "With verified carbon credits, farmers can tap into a new stream of income, rewarding them for their sustainable land management practices. This creates a resilient, profitable future for their communities and contributes directly to global climate goals.",
+                    image: "./img/step-3.png"
+                }
             };
 
             function updateStepDetails(stepId) {
                 processSteps.forEach(s => s.classList.remove('active'));
                 document.getElementById(stepId).classList.add('active');
-                processDetails.textContent = stepDetails[stepId];
+                processImage.src = stepDetails[stepId].image;
+                processText.textContent = stepDetails[stepId].text;
             }
 
             processSteps.forEach(step => {
